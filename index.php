@@ -21,16 +21,6 @@ else{
 
 switch ($method){
     case "GET":
-        /*if($type === 'users'){
-            if (!empty($connect)) {
-                if(isset($id) && $id != null){
-                    getUser($connect, $id);
-                }
-                else {
-                    getUsers($connect);
-                }
-            }
-        } else */
         if($type === "products"){
             if(!empty($conn)){
                 if(isset($id) && $id != null){
@@ -57,6 +47,10 @@ switch ($method){
                 else {
                     getCategories($conn);
                 }
+            }
+        } else if($type === "uploads"){
+            if(isset($id) && $id != null){
+                getFile($id);
             }
         }
 

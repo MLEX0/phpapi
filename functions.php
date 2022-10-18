@@ -1,43 +1,5 @@
 <?php
 
-/*function getUsers($connect): void {
-    $result = pg_exec($connect, 'SELECT * FROM "User"');
-    $row_list = [];
-
-    while($rows = pg_fetch_assoc($result)){
-        $row_list[] = $rows;
-    }
-
-    echo json_encode($row_list);
-}
-
-function getUser($connect, $id): void {
-    try {
-        $result = pg_exec($connect, "SELECT * FROM \"User\" WHERE \"ID\" = {$id}");
-        if (!pg_num_rows($result) != 0) {
-
-            http_response_code(404);
-            $res = [
-                "status" => false,
-                "message" => "User not found"
-            ];
-
-            echo json_encode($res);
-        } else {
-            $row = pg_fetch_assoc($result);
-            echo json_encode($row);
-        }
-    }
-    catch (Exception $ex){
-        http_response_code(404);
-        $res = [
-            "status" => false,
-            "message" => "DB exception: $ex"
-        ];
-        echo json_encode($res);
-    }
-}*/
-
 function getProducts($conn): void {
     $sql = "SELECT * FROM Product";
     $result = sqlsrv_query($conn, $sql);
@@ -275,5 +237,29 @@ function postOrderProduct($conn, $data): void{
         ];
         echo json_encode($res);
     }
+}
 
+function getFile($id): void{
+
+    $directory = "uploads";
+    if(is_dir($directory)){
+
+        $file = $directory . "/{$id}";
+        if(file_exists($file)){
+
+            $mime = mime_content_type($file);
+            header("Content-type: $mime");
+            echo readfile($file);
+
+        } else {
+
+            http_response_code(404);
+            echo json_encode(null);
+        }
+
+    } else {
+
+        http_response_code(404);
+        echo json_encode(null);
+    }
 }
